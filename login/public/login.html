@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Auth Demo</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+    referrerpolicy="no-referrer"></script>
+</head>
+
+<body>
+  <h2>Login</h2><br>
+  <div class="login">
+    <form id="login">
+      <label>Your Email</label>
+      <input type="text" id="email">
+      <br><br>
+      <label>Your Password</label>
+      <input type="text" id="password">
+      <br><br>
+      <input type="Button" id="btn" value="Log In">
+      <br><br>
+    </form>
+  </div>
+
+  <hr>
+  <h2>Signup</h2><br>
+  <form id="signup">
+    <label>Your Email</label>
+    <input type="text" id="email2">
+    <br><br>
+    <label>Your Password</label>
+    <input type="text" id="password2">
+    <br><br>
+    <input type="button" id="btn2" value="Sign Up">
+    <br><br>
+  </form>
+
+</body>
+
+<script>
+  $(document).ready(function () {
+    const host = "http://localhost:3000";
+
+    $('#btn').on('click', function () {
+      $.ajax({
+        url: `${host}/user/signin`,
+        type: "POST",
+        data: JSON.stringify({
+          email: $('#email').val(),
+          password: $('#password').val()
+        }),
+        contentType: "application/json; charset=utf-8",
+        success: function (res) {
+          // store the session cookie
+          window.location = `${host}${res.redirect}`;
+        },
+        error: function (e) {
+          console.log(e);
+        }
+      });
+    });
+
+    $('#btn2').on('click', function () {
+      $.ajax({
+        url: `${host}/user/signup`,
+        type: "POST",
+        data: JSON.stringify({
+          email: $('#email2').val(),
+          password: $('#password2').val()
+        }),
+        contentType: "application/json; charset=utf-8",
+        success: function (res) {
+          console.log(res);
+        },
+        error: function (e) {
+          console.log(e);
+        }
+      });
+    });
+
+
+  })
+
+</script>
+
+</html>
